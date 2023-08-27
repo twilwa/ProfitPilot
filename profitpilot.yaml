@@ -1,0 +1,35 @@
+namespace: profitpilot
+profitpilot:
+  defines: runnable
+  metadata:
+    name: profitpilot
+    description: >-
+      ProfitPilot is an AI application that simulates the actions of a
+      salesperson, including email drafting.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    profitpilot:
+      build: .
+  services:
+    profitpilot-8501/tcp:
+      container: profitpilot
+      port: 8501
+      host-port: 8501
+      publish: false
+      protocol: TCP
+  variables:
+    pat:
+      env: PAT
+      value: '!!!SETME!!!'
+    user-id:
+      env: USER_ID
+      value: '!!!SETME!!!'
+    app-id:
+      env: APP_ID
+      value: '!!!SETME!!!'
+    workflow-id:
+      env: WORKFLOW_ID
+      value: '!!!SETME!!!'
+    text-file-url:
+      env: TEXT_FILE_URL
+      value: '!!!SETME!!!'
