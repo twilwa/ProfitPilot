@@ -1,0 +1,54 @@
+namespace: profitpilot
+profitpilot:
+  defines: runnable
+  metadata:
+    name: profitpilot
+    description: >-
+      This is an AI Sales Assistant which leverages GPT-3 for conversation
+      processing and decision making. The assistant can handle various
+      sales-related tasks such as contacting potential prospects, qualifying
+      them, presenting solutions, handling objections, and start-to-end
+      conversation management. It also has the ability to process and analyze
+      CSV files.
+    icon: https://emojiapi.dev/api/v1/robot.svg
+  containers:
+    profitpilot:
+      build: .
+  services:
+    profitpilot-8501/tcp:
+      container: profitpilot
+      port: 8501
+      host-port: 8501
+      publish: false
+      protocol: TCP
+  variables:
+    pat:
+      env: PAT
+      type: string
+      description: Personal Access Token for authentication in Llama
+      value: '!!!SETME!!!'
+    user-id:
+      env: USER_ID
+      type: string
+      description: User ID for Llama service
+      value: '!!!SETME!!!'
+    app-id:
+      env: APP_ID
+      type: string
+      description: Application ID for Llama service
+      value: '!!!SETME!!!'
+    workflow-id:
+      env: WORKFLOW_ID
+      type: string
+      description: Workflow ID for Llama service
+      value: '!!!SETME!!!'
+    streamlit-server-port:
+      env: STREAMLIT_SERVER_PORT
+      type: string
+      description: Port for Streamlit server
+      value: '8501'
+    openai-key:
+      env: OPENAI_KEY
+      type: string
+      description: API Key for OpenAI
+      value: '!!!SETME!!!'
