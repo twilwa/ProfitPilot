@@ -3,3 +3,6 @@ streamlit
 streamlit-chat
 langchain-experimental
 langchain
+faiss-gpu==1.7.2
+loguru
+openai
