@@ -1,0 +1,39 @@
+namespace: profitpilot
+profitpilot:
+  defines: runnable
+  metadata:
+    name: profitpilot
+    description: >-
+      A conversational AI that simulates a sales agent for automated
+      cold-emailing.
+    icon: https://emojiapi.dev/api/v1/card_index_dividers.svg
+  containers:
+    profitpilot:
+      build: .
+  services:
+    streamlit:
+      container: profitpilot
+      port: 8501
+      host-port: 8501
+      publish: false
+      protocol: TCP
+      description: Streamlit default port for the web interface
+  variables:
+    ai-name:
+      env: AI_NAME
+      value: '!!!SETME!!!'
+    ai-role:
+      env: AI_ROLE
+      value: '!!!SETME!!!'
+    external-tools:
+      env: EXTERNAL_TOOLS
+      value: '!!!SETME!!!'
+    model-name:
+      env: MODEL_NAME
+      value: '!!!SETME!!!'
+    root-dir:
+      env: ROOT_DIR
+      value: '!!!SETME!!!'
+    human-in-the-loop:
+      env: HUMAN_IN_THE_LOOP
+      value: '!!!SETME!!!'
