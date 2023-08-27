@@ -1,0 +1,33 @@
+namespace: profitpilot
+profitpilot:
+  defines: runnable
+  metadata:
+    name: profitpilot
+    description: >-
+      This is an AI application designed to automate cold email drafting and
+      improving communication with prospects. It features a chat-based user
+      interface driven by machine learning models.
+    icon: https://emojiapi.dev/api/v1/email.svg
+  containers:
+    profitpilot:
+      build: .
+  services:
+    profitpilot-8501:
+      container: profitpilot
+      port: 8501
+      host-port: 8501
+      publish: false
+      protocol: TCP
+  variables:
+    zapier-nla-api-key:
+      env: ZAPIER_NLA_API_KEY
+      value: '!!!SETME!!!'
+    llama-model-id:
+      env: LLAMA_MODEL_ID
+      value: '!!!SETME!!!'
+    device:
+      env: DEVICE
+      value: '!!!SETME!!!'
+    max-length:
+      env: MAX_LENGTH
+      value: '!!!SETME!!!'
