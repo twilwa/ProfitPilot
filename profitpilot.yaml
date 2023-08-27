@@ -1,0 +1,36 @@
+namespace: profitpilot
+profitpilot:
+  defines: runnable
+  metadata:
+    name: profitpilot
+    description: A chatbot that supports natural language conversation.
+    icon: https://emojiapi.dev/api/v1/speech_balloon.svg
+  containers:
+    profitpilot:
+      build: .
+  variables:
+    pat:
+      env: PAT
+      type: string
+      description: Personal Access Token for Clarifai
+      value: '!!!SETME!!!'
+    user-id:
+      env: USER_ID
+      type: string
+      description: User ID for the application within Clarifai system
+      value: n7o37rpzserv
+    app-id:
+      env: APP_ID
+      type: string
+      description: Application ID within Clarifai system
+      value: Llama2
+    workflow-id:
+      env: WORKFLOW_ID
+      type: string
+      description: ID of the workflow within Clarifai
+      value: Llama2
+    text-file-url:
+      env: TEXT_FILE_URL
+      type: string
+      description: URL of the input text file
+      value: https://samples.clarifai.com/negative_sentence_12.txt
