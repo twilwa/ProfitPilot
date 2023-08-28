@@ -1,7 +1,7 @@
 langchain
 transformers
 faiss-gpu
-langchain-experimental
+langchain-experimental==0.0.10
 torch
 pandas
 sentencepiece

@@ -13,7 +13,7 @@ class ProfitPilot:
                  salesperson_name: str = None,
                  human_in_the_loop=False,
                  openai_api_key: str = None,
-                 temperature=0.5,
+                 llama = True,
                  conversation_history = None):
         super().__init__()
         self.external_tools = external_tools
@@ -21,6 +21,8 @@ class ProfitPilot:
         self.ai_name = ai_name
         self.ai_role = ai_role
         self.company_name = company_name
+
+        self.llama = llama
 
         self.conversation_history = conversation_history
 
@@ -32,7 +34,6 @@ class ProfitPilot:
         self.salesperson_name = salesperson_name
 
         self.openai_api_key = openai_api_key
-        self.temperature = temperature
 
         self.ai_role = f"""
         You're the best cold emailer of APAC AI, you follow the principles of these books: SPIN Selling, To sell is Human, and FANATICAL Prospecting
@@ -84,8 +85,7 @@ class ProfitPilot:
             human_in_the_loop=self.human_in_the_loop,
             external_tools=self.external_tools,
             openai_api_key=self.openai_api_key,
-            temperature=self.temperature,
-            llama=False,
+            llama=self.llama
         )
         response = node.run(task)
         print(response)

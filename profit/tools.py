@@ -23,13 +23,12 @@ from langchain.tools.file_management.read import ReadFileTool
 from langchain.tools.file_management.write import WriteFileTool
 from pydantic import Field
 
-# from profit.llama import LLama
+from profit.llama import LLama
 
-llm = ChatOpenAI(model_name="gpt-4", temperature=1.0)
+# llm = ChatOpenAI(model_name="gpt-4", temperature=1.0)
 
 # if llama:
-
-#     self.llm = LLama()
+llm = LLama()
 # else:
 #     self.llm = ChatOpenAI(model_name='gpt4', 
 #                         openai_api_key=self.openai_api_key, 
@@ -159,7 +158,6 @@ class WebpageQATool(BaseTool):
 
     async def _arun(self, url: str, question: str) -> str:
         raise NotImplementedError
-
 
 query_website_tool = WebpageQATool(qa_chain=load_qa_with_sources_chain(llm))
 

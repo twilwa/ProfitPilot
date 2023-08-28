@@ -12,7 +12,7 @@ from profit.tools import (
     WriteFileTool,
     process_csv,
     query_website_tool,
-    zapier_tools,
+    zapier_tools
 )
 
 ROOT_DIR = "./data/"
@@ -24,7 +24,7 @@ class Agent:
                  external_tools = None,
                  human_in_the_loop=False,
                  llama = False,
-                 temperature = None,
+                 temperature = 0.5,
                  openai_api_key = None,
                  ):
         self.human_in_the_loop = human_in_the_loop
@@ -33,8 +33,9 @@ class Agent:
 
         self.temperature = temperature
         self.openai_api_key = openai_api_key
+        self.llama = llama
 
-        if llama:
+        if self.llama is True:
             self.llm = LLama()
         else:
             self.llm = ChatOpenAI(model_name='gpt-4', 
@@ -53,7 +54,7 @@ class Agent:
 
             query_website_tool,
             HumanInputRun(),
-            # zapier_tools,
+            zapier_tools,
         ]
         if external_tools is not None:
             self.tools.extend(external_tools)
