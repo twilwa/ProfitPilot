@@ -1,18 +1,17 @@
 import faiss
+from langchain.chat_models import ChatOpenAI
 from langchain.docstore import InMemoryDocstore
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.tools.human.tool import HumanInputRun
 from langchain.vectorstores import FAISS
 from langchain_experimental.autonomous_agents import AutoGPT
 
-from profit.llama import LLama2
+from profit.llama import LLama
 from profit.tools import (
     ReadFileTool,
     WriteFileTool,
-    draft_email,
     process_csv,
     query_website_tool,
-    scrape_data,
     zapier_tools,
 )
 
@@ -24,11 +23,23 @@ class Agent:
                  ai_role="Worker in a swarm",
                  external_tools = None,
                  human_in_the_loop=False,
+                 llama = False,
+                 temperature = None,
+                 openai_api_key = None,
                  ):
         self.human_in_the_loop = human_in_the_loop
         self.ai_name = ai_name
         self.ai_role = ai_role
-        self.llama = LLama2()
+
+        self.temperature = temperature
+        self.openai_api_key = openai_api_key
+
+        if llama:
+            self.llm = LLama()
+        else:
+            self.llm = ChatOpenAI(model_name='gpt-4', 
+                                openai_api_key=self.openai_api_key, 
+                                temperature=self.temperature)
 
         self.setup_tools(external_tools)
         self.setup_memory()
@@ -42,9 +53,7 @@ class Agent:
 
             query_website_tool,
             HumanInputRun(),
-            zapier_tools,
-            draft_email,
-            scrape_data
+            # zapier_tools,
         ]
         if external_tools is not None:
             self.tools.extend(external_tools)
@@ -64,7 +73,7 @@ class Agent:
                 ai_name=self.ai_name,
                 ai_role=self.ai_role,
                 tools=self.tools,
-                llm=self.llama,
+                llm=self.llm,
                 memory=self.vectorstore.as_retriever(search_kwargs={"k": 8}),
                 human_in_the_loop=self.human_in_the_loop
             )
