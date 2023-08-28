@@ -1,0 +1,91 @@
+namespace: profitpilot
+profitpilot:
+  defines: runnable
+  metadata:
+    name: profitpilot
+    description: >-
+      A sales-assistant web application that utilizes AI to produce
+      conversational dialogues and responses for sales pitches.
+    icon: https://emojiapi.dev/api/v1/rocket.svg
+  containers:
+    profitpilot:
+      build: .
+  services:
+    app-port:
+      container: profitpilot
+      port: <- $streamlit-server-port
+      host-port: <- $streamlit-server-port
+      publish: false
+      protocol: TCP
+      description: Port exposed by the main application
+  variables:
+    streamlit-server-port:
+      env: STREAMLIT_SERVER_PORT
+      type: string
+      description: Port on which the web server will listen for connections
+      value: '8501'
+    ai-name:
+      env: AI_NAME
+      type: string
+      description: Name of the AI
+      value: Athena
+    ai-role:
+      env: AI_ROLE
+      type: string
+      description: Role of the AI
+      value: Sales Representative
+    external-tools:
+      env: EXTERNAL_TOOLS
+      type: string
+      description: External tools used by the application
+      value: '!!!SETME!!!'
+    company-name:
+      env: COMPANY_NAME
+      type: string
+      description: Name of the Company
+      value: ABC Company
+    company-values:
+      env: COMPANY_VALUES
+      type: string
+      description: Values of the Company
+      value: Quality, Innovation, Customer Satisfaction
+    conversation-type:
+      env: CONVERSATION_TYPE
+      type: string
+      description: Type of conversation
+      value: Cold Email
+    conversation-purpose:
+      env: CONVERSATION_PURPOSE
+      type: string
+      description: Purpose of the conversation
+      value: discuss our new product
+    company-business:
+      env: COMPANY_BUSINESS
+      type: string
+      description: Business of the company
+      value: APAC AI
+    salesperson-name:
+      env: SALESPERSON_NAME
+      type: string
+      description: Name of the salesperson
+      value: John Doe
+    human-in-the-loop:
+      env: HUMAN_IN_THE_LOOP
+      type: string
+      description: Whether there is a human in the loop
+      value: 'false'
+    prospect-name:
+      env: PROSPECT_NAME
+      type: string
+      description: Name of the prospect
+      value: Jane Smith
+    temperature:
+      env: TEMPERATURE
+      type: float
+      description: Temperature setting for the AI
+      value: '0.5'
+    openai-api-key:
+      env: OPENAI_API_KEY
+      type: string
+      description: The OpenAI API key
+      value: '!!!SETME!!!'
