@@ -1,51 +1,53 @@
 import faiss
-from langchain.chat_models import ChatOpenAI
 from langchain.docstore import InMemoryDocstore
 from langchain.embeddings import OpenAIEmbeddings
 from langchain.tools.human.tool import HumanInputRun
 from langchain.vectorstores import FAISS
 from langchain_experimental.autonomous_agents import AutoGPT
-
-from profit.llama import LLama
 from profit.tools import (
     ReadFileTool,
     WriteFileTool,
     process_csv,
     query_website_tool,
-    zapier_tools,
-    GmailTool
+    # zapier_tools,
 )
-
-model = GmailTool
 
 ROOT_DIR = "./data/"
 
+from langchain.llms import Clarifai
+
+clarifi = Clarifai(
+    pat="890cdb0cb5aa4795ba51af9670120a1e", 
+    user_id="meta", 
+    app_id="Llama-2", 
+    model_id="llama2-70b-chat"
+)
+
+
+
 class Agent:
-    def __init__(self, 
-                 ai_name="Autobot Swarm Worker",
-                 ai_role="Worker in a swarm",
-                 external_tools = None,
-                 human_in_the_loop=False,
-                 llama = False,
-                 temperature = 0.5,
-                 openai_api_key = None,
-                 ):
+    def __init__(
+            self, 
+            ai_name="Autobot Swarm Worker",
+            ai_role="Worker in a swarm",
+            external_tools = None,
+            human_in_the_loop=False,
+            llama = False,
+            temperature = 0.5,
+            openai_api_key = None,
+        ):
         self.human_in_the_loop = human_in_the_loop
         self.ai_name = ai_name
         self.ai_role = ai_role
 
         self.temperature = temperature
-        self.openai_api_key = openai_api_key
         self.llama = llama
+        self.openai_api_key = openai_api_key
 
         if self.llama is True:
-            self.llm = LLama()
+            self.llm = clarifi
         else:
-            self.llm = ChatOpenAI(
-                                model_name='gpt-4', 
-                                openai_api_key=self.openai_api_key, 
-                                temperature=self.temperature
-                            )
+            pass
 
         self.setup_tools(external_tools)
         self.setup_memory()
@@ -59,7 +61,7 @@ class Agent:
 
             query_website_tool,
             HumanInputRun(),
-            zapier_tools,
+            # zapier_tools,
 
         ]
         if external_tools is not None:
@@ -67,7 +69,7 @@ class Agent:
 
     def setup_memory(self):
         try:
-            embeddings_model = OpenAIEmbeddings()
+            embeddings_model = OpenAIEmbeddings(openai_api_key=self.openai_api_key)
             embedding_size = 1536
             index = faiss.IndexFlatL2(embedding_size)
             self.vectorstore = FAISS(embeddings_model.embed_query, index, InMemoryDocstore({}), {})
